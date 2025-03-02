@@ -16,7 +16,7 @@
   tasks:
     - name: Create linux user
       user:
-        name: nodejs
+        name: "{{linus_name}}"
         comment: Node user
         group: admin
 
@@ -24,18 +24,24 @@
 - name: Deploy nodejs app
   hosts: 209.38.218.181
   become: True
-  become_user: nodejs
+  #replace with your own choosen username
+  become_user: "{{linux_name}}"
+  vars_files:
+    project-vars
   tasks:
     - name: Unpack the nodejs file
       unarchive:
-        src: /home/hyf/ansible/nodejs-app/nodejs-app-1.0.0.tgz
-        dest: /home/nodejs
+        #replace with your folder location
+        src: "{{location}}/nodejs-app-{{version}}.tgz"
+        dest: "{{user_home_dir}}"
     - name: Install dependencies
       npm:
-        path: /home/nodejs/package
+        #replace with your folder location
+        path: "{{user_home_dir}}/package"
     - name: Start the application
       command:
-        chdir: /home/nodejs/package/app
+        #replace with your folder location
+        chdir: "{{user_home_dir}}/package/app"
         cmd: node server
       async: 1000
       poll: 0
