@@ -2,3 +2,5 @@ version: 1.0.0
 location: /home/hyf/ansible/nodejs-app 
 linux_name: nodejs
 user_home_dir: /home/{{linux_name}}
+
+docker_password:
